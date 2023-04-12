@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Page utilisateur{% endblock %}
+
+{% block body %}
+<header class="masthead" style="background-image: url('{{ asset('img/register-bg.jpg') }}')">
+    <div class="container position-relative px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <div class="site-heading">
+                    <h1>Mon profil Utilisateur</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<div>
+    
+</div>
+<div class="container px-4 px-lg-5 ">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+        <div class="col-md-10 col-lg-8 col-xl-7">
+            <h2 class="post-title" id="show_comments">Bienvenue {{ app.user.firstname }} {{ app.user.name }}</h2>
+            <!-- Divider-->
+            <hr class="my-4" />
+            <!-- Pager-->
+        </div>
+    </div>
+</div>
+<div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <h4>Mes informations</h4>
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <p><strong>Photo de profil</strong></p>
+                    {% if app.user.images|length > 0 %}
+                        <img class="card-img-top" src="{{ asset('uploads/' ~ app.user.images) }}" style="width: 50px; height: 50px; object-fit: cover; border-radius:25px;" />
+                    {% else %}
+                        <img class="card-img-top" src="{{ asset('img/user.png') }}" style="width: 50px; height: 50px; object-fit: cover; border-radius:25px;" />
+                    {% endif %}
+                    {# <div class="form-floating">
+                        {{ form_start(form) }}
+                        {{ form_row(form) }}
+                        {{ form_end(form) }}
+                        <div style="color:#6c757d;font-size:0.7em;">(Changer de photo de profil)</div>
+                    </div> #}
+                    {# <div ><a href="{{ path('users_profile_edit') }}"><input value="Modifier mon profil" class="btn btn-primary text-uppercase" id="submitButton" /></a></div></br> #}
+                </div>
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <p><strong>Prénom </strong>| {{ app.user.firstname }}</p>
+                    <p><strong>Nom </strong>| {{ app.user.name }}</p>
+                    <p><strong>Email </strong>| {{ app.user.email }}</p>
+                </div>
+        </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
