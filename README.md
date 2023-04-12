@@ -26,7 +26,7 @@ npm run build
 
     Create database and some fixtures via doctrine.
     
-    Open phpmyadmin and create a new database called projet6
+   Open phpmyadmin and create a new database called projet6
 
    Import the SQL file 'projet6.sql' you will find in the projet6 folder you downloaded on Github
 
