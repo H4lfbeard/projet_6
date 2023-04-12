@@ -3,12 +3,12 @@ Project 6 from my Openclassrooms online formation
 
 Installation :
 
-This project has been developed under php 8.1 and symfony 5.3.
+This project has been developed under php 7.4.16 and symfony 5.4.21
 Start this project in localhost mode, run some command lines:
 
     clone the GitHub repo:
 
-git clone https://github.com/sebzz07/snowtricks.git
+git clone https://github.com/H4lfbeard/projet_6/tree/main
 
     install dependencies with composer:
 
@@ -36,20 +36,11 @@ symfony console doctrine:fixtures:load
 
     run local server :
 
-symfony server:start -d
+symfony server:start
 
-    run the asynchronous service to send mail :
-
-symfony console messenger:consume async -vvv
 
 Now the project is normally deploy correctly
 Information to Test the project :
-Two options :
-
-use the accounts created with the fixtures:
-
-user//123456
-
-Or you can create your own account.
+Simply create yout own account and you can now add tricks and comments.
 
 Thank you !
