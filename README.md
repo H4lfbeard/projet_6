@@ -3,7 +3,7 @@ Project 6 from my Openclassrooms online formation
 
 Installation :
 
-This project has been developed under php 7.4.16 and symfony 5.4.21
+This project has been developed under php 7.4.16 and symfony 5.4.21. 
 Start this project in localhost mode, run some command lines:
 
     clone the GitHub repo:
@@ -24,15 +24,11 @@ npm run build
 
     Create and fill out your own .env.*
 
-    Create database and some fixtures via doctrine :
+    Create database and some fixtures via doctrine.
+    
+    Open phpmyadmin and create a new database called projet6
 
-symfony console doctrine:database:create
-
-symfony console make:migration
-
-symfony console doctrine:migrations:migrate
-
-symfony console doctrine:fixtures:load
+   Import the SQL file 'projet6.sql' you will find in the projet6 folder you downloaded on Github
 
     run local server :
 
