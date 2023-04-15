@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Snowtricks Home{% endblock %}
+
+{% block body %}
+    <header class="masthead" style="background-image: url('{{ asset('img/home-bg.jpg') }}')">
+        <div class="container position-relative px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <div class="site-heading">
+                        <h1>Snowtricks</h1>
+                        <span class="subheading">A place to share your knowledge of snowboarding !</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="py-5">
+        <div class="container px-4 px-lg-5 mt-5">
+            <div class="row gx-4 gx-lg-5 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-5 justify-content-center">
+                {% for trick in tricks %}
+                <div class="col mb-5">
+                    <div class="card h-100">
+                        <!-- Trick image-->
+                        {% if trick.images|length > 0 %}
+                            <img class="card-img-top" src="{{ asset('uploads/' ~ trick.images|first) }}" alt="..." />
+                        {% endif %}
+                        <!-- Trick details-->
+                        <div class="card-body p-4">
+                            <div class="text-center">
+                                <!-- Trick name-->
+                                <a href="{{ path('app_tricks_show', {'id': trick.id}) }}">
+                                <h5 class="fw-bolder">{{ trick.title }}</h5>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                <div class="text-center"><a href="{{ path('app_tricks_edit', {'id': trick.id}) }}">edit</a></div>
+                                <div class="text-center"><a href="{{ path('app_tricks_edit', {'id': trick.id}) }}">delete</a></div>
+                        </div>
+                    </div>
+                </div>
+                    {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <a href="{{ path('app_tricks_new') }}">Create new</a>
+{% endblock %}
+
+
+
+

@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Page utilisateur{% endblock %}
+
+{% block body %}
+    <header class="masthead" style="background-image: url('{{ asset('img/register-bg.jpg') }}')">
+        <div class="container position-relative px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <div class="site-heading">
+                        <h1>Mon profil</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container px-4 px-lg-5 ">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <h2 class="post-title" id="show_comments">Bienvenue {{ app.user.firstname }} {{ app.user.name }}</h2>
+                <!-- Divider-->
+                <hr class="my-4" />
+                <!-- Pager-->
+            </div>
+        </div>
+    </div>
+
+    <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <h3>Mes informations</h3></br>
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <p>Prénom | {{ app.user.firstname }}</p>
+                    <p>Nom | {{ app.user.name }}</p>
+                    <p>Email | {{ app.user.email }}</p>
+                    <div ><a href="{{ path('users_profile_edit') }}"><input value="Modifier mon profil" class="btn btn-primary text-uppercase" id="submitButton" /></a></div></br>
+                    <div ><input type="submit" value="Modifier mon mot de passe" class="btn btn-primary text-uppercase" id="submitButton" /></div>
+                    <hr class="my-4" />
+                </div>
+        </div>
+            </div>
+        </div>
+    </div>
+
+    <article class="mb-4">
+        <div class="container px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <h3>Liste des tricks que vous avez créer :</h3></br>
+                    {% for tricks in app.user.tricks %}
+                    <div class="meta">
+                        <h4>- {{ tricks.title }}</h4>
+                        <p>{{ tricks.content }}</p>
+                    </div>
+                    <strong style="color:#fff;"><a href="#">Valider</a></strong> |
+                    <strong><a href="#" onclick="#">Supprimer</a></strong>
+                    <hr class="my-4" />
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </article>
+
+{% endblock %}
