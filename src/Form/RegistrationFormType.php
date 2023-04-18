@@ -15,32 +15,32 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 class RegistrationFormType extends AbstractType
 {
-	public function buildForm(FormBuilderInterface $builder, array $options): void
-	{
-		$builder
-			->add('email')
-			->add('firstname')
-			->add('name')
-			->add('plainPassword', PasswordType::class, [
-				'mapped' => false,
-				'attr' => ['autocomplete' => 'new-password'],
-				'constraints' => [
-					new NotBlank([
-						'message' => 'Please enter a password',
-					]),
-					new Length([
-						'min' => 6,
-						'minMessage' => 'Your password should be at least {{ limit }} characters',
-						'max' => 4096,
-					]),
-				],
-			]);
-	}
+    public function buildForm(FormBuilderInterface $builder, array $options): void
+    {
+        $builder
+            ->add('email')
+            ->add('firstname')
+            ->add('name')
+            ->add('plainPassword', PasswordType::class, [
+                'mapped' => false,
+                'attr' => ['autocomplete' => 'new-password'],
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Please enter a password',
+                    ]),
+                    new Length([
+                        'min' => 6,
+                        'minMessage' => 'Your password should be at least {{ limit }} characters',
+                        'max' => 4096,
+                    ]),
+                ],
+            ]);
+    }
 
-	public function configureOptions(OptionsResolver $resolver): void
-	{
-		$resolver->setDefaults([
-			'data_class' => Users::class,
-		]);
-	}
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver->setDefaults([
+            'data_class' => Users::class,
+        ]);
+    }
 }

@@ -16,26 +16,26 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class ImagesRepository extends ServiceEntityRepository
 {
-	public function __construct(ManagerRegistry $registry)
-	{
-		parent::__construct($registry, Images::class);
-	}
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, Images::class);
+    }
 
-	public function add(Images $entity, bool $flush = false): void
-	{
-		$this->getEntityManager()->persist($entity);
+    public function add(Images $entity, bool $flush = false): void
+    {
+        $this->getEntityManager()->persist($entity);
 
-		if ($flush) {
-			$this->getEntityManager()->flush();
-		}
-	}
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
 
-	public function remove(Images $entity, bool $flush = false): void
-	{
-		$this->getEntityManager()->remove($entity);
+    public function remove(Images $entity, bool $flush = false): void
+    {
+        $this->getEntityManager()->remove($entity);
 
-		if ($flush) {
-			$this->getEntityManager()->flush();
-		}
-	}
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
 }

@@ -16,26 +16,26 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class CategoriesRepository extends ServiceEntityRepository
 {
-	public function __construct(ManagerRegistry $registry)
-	{
-		parent::__construct($registry, Categories::class);
-	}
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, Categories::class);
+    }
 
-	public function add(Categories $entity, bool $flush = false): void
-	{
-		$this->getEntityManager()->persist($entity);
+    public function add(Categories $entity, bool $flush = false): void
+    {
+        $this->getEntityManager()->persist($entity);
 
-		if ($flush) {
-			$this->getEntityManager()->flush();
-		}
-	}
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
 
-	public function remove(Categories $entity, bool $flush = false): void
-	{
-		$this->getEntityManager()->remove($entity);
+    public function remove(Categories $entity, bool $flush = false): void
+    {
+        $this->getEntityManager()->remove($entity);
 
-		if ($flush) {
-			$this->getEntityManager()->flush();
-		}
-	}
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
 }

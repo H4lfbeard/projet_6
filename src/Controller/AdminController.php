@@ -16,41 +16,41 @@ use App\Form\EditProfileType;
  */
 class AdminController extends AbstractController
 {
-	/**
-	 * @Route("/", name="home")
-	 */
-	public function index(Request $request): Response
-	{
-		$user = $this->getUser();
+    /**
+     * @Route("/", name="home")
+     */
+    public function index(Request $request): Response
+    {
+        $user = $this->getUser();
 
-		$form = $this->createForm(EditProfileType::class);
-		$form->handlerequest($request);
+        $form = $this->createForm(EditProfileType::class);
+        $form->handlerequest($request);
 
-		return $this->render('admin/index.html.twig', [
-			'controller_name' => 'AdminController',
-		]);
-	}
+        return $this->render('admin/index.html.twig', [
+            'controller_name' => 'AdminController',
+        ]);
+    }
 
-	/**
-	 * @Route("/categories/add", name="categories_add")
-	 */
-	public function addCategorie(Request $request): Response
-	{
-		$categorie = new Categories;
-		$form = $this->createForm(CategoriesType::class, $categorie);
+    /**
+     * @Route("/categories/add", name="categories_add")
+     */
+    public function addCategorie(Request $request): Response
+    {
+        $categorie = new Categories;
+        $form = $this->createForm(CategoriesType::class, $categorie);
 
-		$form->handleRequest($request);
+        $form->handleRequest($request);
 
-		if ($form->isSubmitted() && $form->isValid()) {
-			$em = $this->getDoctrine()->getManager();
-			$em->persist($categorie);
-			$em->flush();
-			$this->addFlash('message', 'Catégorie bien ajouté !');
-			return $this->redirectToRoute('admin_home');
-		}
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($categorie);
+            $em->flush();
+            $this->addFlash('message', 'Catégorie bien ajouté !');
+            return $this->redirectToRoute('admin_home');
+        }
 
-		return $this->render('admin/categories/add.html.twig', [
-			'form' => $form->createView()
-		]);
-	}
+        return $this->render('admin/categories/add.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
 }

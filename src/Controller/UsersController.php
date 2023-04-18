@@ -18,60 +18,60 @@ use Symfony\Component\Form\Extension\Core\Type\EntityType;
  */
 class UsersController extends AbstractController
 {
-	/**
-	 * @Route("/profile", name="home")
-	 */
-	public function index(): Response
-	{
-		return $this->render('users/index.html.twig', []);
-	}
+    /**
+     * @Route("/profile", name="home")
+     */
+    public function index(): Response
+    {
+        return $this->render('users/index.html.twig', []);
+    }
 
 
-	/**
-	 * @Route("/tricks/add", name="tricks_add")
-	 */
-	public function addTricks(Request $request): Response
-	{
-		$trick = new Tricks;
+    /**
+     * @Route("/tricks/add", name="tricks_add")
+     */
+    public function addTricks(Request $request): Response
+    {
+        $trick = new Tricks;
 
-		$form = $this->createForm(TricksType::class, $trick);
+        $form = $this->createForm(TricksType::class, $trick);
 
-		$form->handleRequest($request);
-		if ($form->isSubmitted() && $form->isValid()) {
-			$trick->setUser($this->getUser());
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $trick->setUser($this->getUser());
 
-			$em = $this->getDoctrine()->getManager();
-			$em->persist($trick);
-			$em->flush();
-			$this->addFlash('message', 'Trick ajouter à la bibliothèque !');
-			return $this->redirectToRoute('app_home');
-		}
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($trick);
+            $em->flush();
+            $this->addFlash('message', 'Trick ajouter à la bibliothèque !');
+            return $this->redirectToRoute('app_home');
+        }
 
-		return $this->render('users/tricks/add.html.twig', [
-			'form' => $form->createView(),
-		]);
-	}
+        return $this->render('users/tricks/add.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
 
-	/**
-	 * @Route("/profile/edit", name="profile_edit")
-	 */
-	public function editProfile(Request $request): Response
-	{
-		$user = $this->getUser();
-		$form = $this->createForm(EditProfileType::class, $user);
+    /**
+     * @Route("/profile/edit", name="profile_edit")
+     */
+    public function editProfile(Request $request): Response
+    {
+        $user = $this->getUser();
+        $form = $this->createForm(EditProfileType::class, $user);
 
-		$form->handleRequest($request);
-		if ($form->isSubmitted() && $form->isValid()) {
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
 
-			$em = $this->getDoctrine()->getManager();
-			$em->persist($user);
-			$em->flush();
-			$this->addFlash('message', 'Profil mis à jour');
-			return $this->redirectToRoute('users');
-		}
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($user);
+            $em->flush();
+            $this->addFlash('message', 'Profil mis à jour');
+            return $this->redirectToRoute('users');
+        }
 
-		return $this->render('users/users/editprofile.html.twig', [
-			'form' => $form->createView(),
-		]);
-	}
+        return $this->render('users/users/editprofile.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
 }

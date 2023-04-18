@@ -3,14 +3,14 @@ window.onload = () => {
     let links = document.querySelectorAll("[data-delete]")
 
     // On boucle sur links
-    for(link of links) {
+    for (link of links) {
         // On écoute le clic
-        link.addEventListener("click", function(e){
+        link.addEventListener("click", function (e) {
             // On empêche la navigation
             e.preventDefault()
 
             // On demande confirmation
-            if(confirm("Voulez-vous supprimer cette image ? ")) {
+            if (confirm("Voulez-vous supprimer cette image ? ")) {
                 // On envoie une requête Ajax vers le href du lien avec la méthode DELETE
                 fetch(this.getAttribute('href'), {
                     method: "DELETE",
@@ -23,7 +23,7 @@ window.onload = () => {
                     // On récupère la réponse en JSON
                     response => response.json()
                 ).then(data => {
-                    if(data.success)
+                    if (data.success)
                         this.parentElement.remove();
                     else
                         alert(data.error)

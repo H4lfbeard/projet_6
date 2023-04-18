@@ -14,88 +14,88 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Categories
 {
-	/**
-	 * @ORM\Id
-	 * @ORM\GeneratedValue
-	 * @ORM\Column(type="integer")
-	 */
-	private $id;
+    /**
+     * @ORM\Id
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
+     */
+    private $id;
 
-	/**
-	 * @ORM\Column(type="string", length=100)
-	 */
-	private $name;
+    /**
+     * @ORM\Column(type="string", length=100)
+     */
+    private $name;
 
-	/**
-	 * @Gedmo\Slug(fields={"name"})
-	 * @ORM\Column(type="string", length=100)
-	 */
-	private $slug;
+    /**
+     * @Gedmo\Slug(fields={"name"})
+     * @ORM\Column(type="string", length=100)
+     */
+    private $slug;
 
-	/**
-	 * @ORM\OneToMany(targetEntity=Tricks::class, mappedBy="categories")
-	 */
-	private $tricks;
+    /**
+     * @ORM\OneToMany(targetEntity=Tricks::class, mappedBy="categories")
+     */
+    private $tricks;
 
-	public function __toString()
-	{
-		return $this->name;
-	}
+    public function __toString()
+    {
+        return $this->name;
+    }
 
-	public function __construct()
-	{
-		$this->tricks = new ArrayCollection();
-	}
+    public function __construct()
+    {
+        $this->tricks = new ArrayCollection();
+    }
 
-	public function getId(): ?int
-	{
-		return $this->id;
-	}
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
 
-	public function getName(): ?string
-	{
-		return $this->name;
-	}
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
 
-	public function setName(string $name): self
-	{
-		$this->name = $name;
+    public function setName(string $name): self
+    {
+        $this->name = $name;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	public function getSlug(): ?string
-	{
-		return $this->slug;
-	}
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
 
-	/**
-	 * @return Collection<int, Tricks>
-	 */
-	public function getTricks(): Collection
-	{
-		return $this->tricks;
-	}
+    /**
+     * @return Collection<int, Tricks>
+     */
+    public function getTricks(): Collection
+    {
+        return $this->tricks;
+    }
 
-	public function addTrick(Tricks $trick): self
-	{
-		if (!$this->tricks->contains($trick)) {
-			$this->tricks[] = $trick;
-			$trick->setCategories($this);
-		}
+    public function addTrick(Tricks $trick): self
+    {
+        if (!$this->tricks->contains($trick)) {
+            $this->tricks[] = $trick;
+            $trick->setCategories($this);
+        }
 
-		return $this;
-	}
+        return $this;
+    }
 
-	public function removeTrick(Tricks $trick): self
-	{
-		if ($this->tricks->removeElement($trick)) {
-			// set the owning side to null (unless already changed)
-			if ($trick->getCategories() === $this) {
-				$trick->setCategories(null);
-			}
-		}
+    public function removeTrick(Tricks $trick): self
+    {
+        if ($this->tricks->removeElement($trick)) {
+            // set the owning side to null (unless already changed)
+            if ($trick->getCategories() === $this) {
+                $trick->setCategories(null);
+            }
+        }
 
-		return $this;
-	}
+        return $this;
+    }
 }
