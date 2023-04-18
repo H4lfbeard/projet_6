@@ -12,20 +12,20 @@ use Doctrine\Migrations\AbstractMigration;
  */
 final class Version20230405102507 extends AbstractMigration
 {
-    public function getDescription(): string
-    {
-        return '';
-    }
+	public function getDescription(): string
+	{
+		return '';
+	}
 
-    public function up(Schema $schema): void
-    {
-        // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE videos CHANGE url url VARCHAR(1000) DEFAULT NULL');
-    }
+	public function up(Schema $schema): void
+	{
+		// this up() migration is auto-generated, please modify it to your needs
+		$this->addSql('ALTER TABLE videos CHANGE url url VARCHAR(1000) DEFAULT NULL');
+	}
 
-    public function down(Schema $schema): void
-    {
-        // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE videos CHANGE url url VARCHAR(255) CHARACTER SET utf8mb4 DEFAULT NULL COLLATE `utf8mb4_unicode_ci`');
-    }
+	public function down(Schema $schema): void
+	{
+		// this down() migration is auto-generated, please modify it to your needs
+		$this->addSql('ALTER TABLE videos CHANGE url url VARCHAR(255) CHARACTER SET utf8mb4 DEFAULT NULL COLLATE `utf8mb4_unicode_ci`');
+	}
 }

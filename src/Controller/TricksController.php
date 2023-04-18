@@ -28,225 +28,225 @@ use Symfony\Component\Validator\Constraints\DateTime;
  */
 class TricksController extends AbstractController
 {
-    /**
-     * @Route("/", name="app_tricks_index", methods={"GET"})
-     */
-    public function index(TricksRepository $tricksRepository, Request $request): Response
-    {
+	/**
+	 * @Route("/", name="app_tricks_index", methods={"GET"})
+	 */
+	public function index(TricksRepository $tricksRepository, Request $request): Response
+	{
 
-        return $this->render('main/index.html.twig', [
-            'tricks' => $tricksRepository->findAll(),
-        ]);
-    }
+		return $this->render('main/index.html.twig', [
+			'tricks' => $tricksRepository->findAll(),
+		]);
+	}
 
-    /**
-     * @Route("/new", name="app_tricks_new", methods={"GET", "POST"})
-     */
-    public function new(Request $request, TricksRepository $tricksRepository): Response
-    {
-        // Get the currently logged in user
-        $user = $this->getUser();
+	/**
+	 * @Route("/new", name="app_tricks_new", methods={"GET", "POST"})
+	 */
+	public function new(Request $request, TricksRepository $tricksRepository): Response
+	{
+		// Get the currently logged in user
+		$user = $this->getUser();
 
-        $trick = new Tricks();
-        $video = new Videos();
+		$trick = new Tricks();
+		$video = new Videos();
 
-        // Set the user ID
-        $trick->setUser($this->getUser());
+		// Set the user ID
+		$trick->setUser($this->getUser());
 
-        $form = $this->createForm(TricksType::class, $trick);
-        $form->handleRequest($request);
-
-
-        if ($form->isSubmitted() && $form->isValid()) {
-
-            //On récupère les images transmises
-            $images = $form->get('images')->getData();
-
-            // On boucle sur les images
-            foreach ($images as $image) {
-                // On génère un nouveau nom de fichier
-                $file = md5(uniqid()) . '.' . $image->guessExtension();
-
-                // On copie le fichier dans le dossier uploads
-                $image->move(
-                    $this->getParameter('images_directory'),
-                    $file
-                );
-
-                // On stocke l'image (son nom) dans la BDD 
-                $img = new Images();
-                $img->setTitle($file);
-                $trick->addImage($img);
-
-                // // Set the user ID
-                // $trick->setUser($this->getUser());
-            }
-
-            //On récupère les videos transmises
-            $videos = $form->get('videos')->getData();
-            foreach ($videos as $video) {
-                $video->setTrick($trick);
-
-                $trick->getVideos()->add($video);
-            }
-
-            $tricksRepository->add($trick, true);
-
-            $this->addFlash('success', 'Nouveau trick ajouté à la liste !');
-            return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->renderForm('tricks/new.html.twig', [
-            'trick' => $trick,
-            'form' => $form,
-        ]);
-    }
-
-    /**
-     * @Route("/{slug}-{id}", name="app_tricks_show", methods={"GET", "POST"}, requirements={"slug": "[a-z0-9\-]*"})
-     * @return void
-     */
-    public function show(Request $request, Tricks $trick, MessagesRepository $messagesRepository): Response
-    {
-        // Get the currently logged in user
-        $user = $this->getUser();
-
-        //Création du formulaire
-        $message = new Messages();
-        $form = $this->createForm(MessagesType::class, $message);
-        $form->handlerequest($request);
-
-        //traitement du commentaire
-        if ($form->isSubmitted() && $form->isValid()) {
-
-            $message->setTrick($trick);
-            $message->setUser($user);
-
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($message);
-            $em->flush();
-
-            // TENTATIVE D'AJOUT DE PAGINATION
-            // On définit le nombre d'éléments par page   
-            $limit = 10;
-
-            // On récupère le numéro de page
-            $page = (int)$request->query->get("page", 1);
-
-            // On récupère les messages liée au trick
-            $messages = $messagesRepository->getPaginatedMessages($page, $limit, $trick);
-
-            // On récupère le nombre total de messages liée au trick
-            $total = $messagesRepository->getTotalMessages($trick);
-
-            $this->addFlash('message', 'Votre commentaire à été bien enregistré');
-            return $this->render('tricks/show.html.twig', [
-                'trick' => $trick,
-                'messages' => $messages,
-                'page' => $page,
-                'limit' => $limit,
-                'total' => $total,
-                'form' => $form->createView(),
-            ]);
-        }
-
-        // TENTATIVE D'AJOUT DE PAGINATION
-        // On définit le nombre d'éléments par page   
-        $limit = 10;
-
-        // On récupère le numéro de page
-        $page = (int)$request->query->get("page", 1);
-
-        // On récupère les messages liée au trick
-        $messages = $messagesRepository->getPaginatedMessages($page, $limit, $trick);
-
-        // On récupère le nombre total de messages liée au trick
-        $total = $messagesRepository->getTotalMessages($trick);
+		$form = $this->createForm(TricksType::class, $trick);
+		$form->handleRequest($request);
 
 
-        return $this->render('tricks/show.html.twig', [
-            'trick' => $trick,
-            'messages' => $messages,
-            'page' => $page,
-            'limit' => $limit,
-            'total' => $total,
-            'form' => $form->createView(),
-        ]);
-    }
+		if ($form->isSubmitted() && $form->isValid()) {
 
-    /**
-     * @Route("/{slug}-{id}/edit", name="app_tricks_edit", methods={"GET", "POST"}, requirements={"slug": "[a-z0-9\-]*"})
-     */
-    public function edit(Request $request, Tricks $trick, TricksRepository $tricksRepository): Response
-    {
-        $form = $this->createForm(TricksType::class, $trick);
-        $form->handleRequest($request);
+			//On récupère les images transmises
+			$images = $form->get('images')->getData();
 
-        if ($form->isSubmitted() && $form->isValid()) {
+			// On boucle sur les images
+			foreach ($images as $image) {
+				// On génère un nouveau nom de fichier
+				$file = md5(uniqid()) . '.' . $image->guessExtension();
 
-            //On récupère les images transmises
-            $images = $form->get('images')->getData();
+				// On copie le fichier dans le dossier uploads
+				$image->move(
+					$this->getParameter('images_directory'),
+					$file
+				);
 
-            // On boucle sur les images
-            foreach ($images as $image) {
-                // On génère un nouveau nom de fichier
-                $file = md5(uniqid()) . '.' . $image->guessExtension();
+				// On stocke l'image (son nom) dans la BDD
+				$img = new Images();
+				$img->setTitle($file);
+				$trick->addImage($img);
 
-                // On copie le fichier dans le dossier uploads
-                $image->move(
-                    $this->getParameter('images_directory'),
-                    $file
-                );
+				// // Set the user ID
+				// $trick->setUser($this->getUser());
+			}
 
-                // On stocke l'image (son nom) dans la BDD 
-                $img = new Images();
-                $img->setTitle($file);
-                $trick->addImage($img);
-            }
+			//On récupère les videos transmises
+			$videos = $form->get('videos')->getData();
+			foreach ($videos as $video) {
+				$video->setTrick($trick);
 
-            $tricksRepository->add($trick, true);
+				$trick->getVideos()->add($video);
+			}
 
-            $this->addFlash('success', 'Le trick à été mis à jour !');
-            return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
-        }
+			$tricksRepository->add($trick, true);
 
-        return $this->renderForm('tricks/edit.html.twig', [
-            'trick' => $trick,
-            'form' => $form,
-        ]);
-    }
+			$this->addFlash('success', 'Nouveau trick ajouté à la liste !');
+			return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
+		}
 
-    /**
-     * @Route("/delete/{id}", name="app_tricks_delete", methods={"POST", "DELETE"})
-     */
-    public function delete(Request $request, Tricks $trick, TricksRepository $tricksRepository): Response
-    {
+		return $this->renderForm('tricks/new.html.twig', [
+			'trick' => $trick,
+			'form' => $form,
+		]);
+	}
 
-        if ($this->isCsrfTokenValid('delete' . $trick->getId(), $request->request->get('_token'))) {
-            $tricksRepository->remove($trick, true);
-        }
+	/**
+	 * @Route("/{slug}-{id}", name="app_tricks_show", methods={"GET", "POST"}, requirements={"slug": "[a-z0-9\-]*"})
+	 * @return void
+	 */
+	public function show(Request $request, Tricks $trick, MessagesRepository $messagesRepository): Response
+	{
+		// Get the currently logged in user
+		$user = $this->getUser();
 
-        return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
-    }
+		//Création du formulaire
+		$message = new Messages();
+		$form = $this->createForm(MessagesType::class, $message);
+		$form->handlerequest($request);
 
-    /**
-     * @Route("/delete/image/{id}", name="app_tricks_delete_image", methods={"DELETE"})
-     */
-    public function deleteImage(Images $image, Request $request): Response
-    {
-        $data = json_decode($request->getContent(), true);
+		//traitement du commentaire
+		if ($form->isSubmitted() && $form->isValid()) {
 
-        // On récupère le nom de l'image
-        $nom = $image->getTitle();
-        // On supprime le fichier
-        unlink($this->getParameter('images_directory') . '/' . $nom);
+			$message->setTrick($trick);
+			$message->setUser($user);
 
-        // On suprime l'entrée de la base
-        $em = $this->getDoctrine()->getManager();
-        $em->remove($image);
-        $em->flush();
+			$em = $this->getDoctrine()->getManager();
+			$em->persist($message);
+			$em->flush();
 
-        // On répond en json
-        return new JsonResponse(['success' => 1]);
-    }
+			// TENTATIVE D'AJOUT DE PAGINATION
+			// On définit le nombre d'éléments par page
+			$limit = 10;
+
+			// On récupère le numéro de page
+			$page = (int)$request->query->get("page", 1);
+
+			// On récupère les messages liée au trick
+			$messages = $messagesRepository->getPaginatedMessages($page, $limit, $trick);
+
+			// On récupère le nombre total de messages liée au trick
+			$total = $messagesRepository->getTotalMessages($trick);
+
+			$this->addFlash('message', 'Votre commentaire à été bien enregistré');
+			return $this->render('tricks/show.html.twig', [
+				'trick' => $trick,
+				'messages' => $messages,
+				'page' => $page,
+				'limit' => $limit,
+				'total' => $total,
+				'form' => $form->createView(),
+			]);
+		}
+
+		// TENTATIVE D'AJOUT DE PAGINATION
+		// On définit le nombre d'éléments par page
+		$limit = 10;
+
+		// On récupère le numéro de page
+		$page = (int)$request->query->get("page", 1);
+
+		// On récupère les messages liée au trick
+		$messages = $messagesRepository->getPaginatedMessages($page, $limit, $trick);
+
+		// On récupère le nombre total de messages liée au trick
+		$total = $messagesRepository->getTotalMessages($trick);
+
+
+		return $this->render('tricks/show.html.twig', [
+			'trick' => $trick,
+			'messages' => $messages,
+			'page' => $page,
+			'limit' => $limit,
+			'total' => $total,
+			'form' => $form->createView(),
+		]);
+	}
+
+	/**
+	 * @Route("/{slug}-{id}/edit", name="app_tricks_edit", methods={"GET", "POST"}, requirements={"slug": "[a-z0-9\-]*"})
+	 */
+	public function edit(Request $request, Tricks $trick, TricksRepository $tricksRepository): Response
+	{
+		$form = $this->createForm(TricksType::class, $trick);
+		$form->handleRequest($request);
+
+		if ($form->isSubmitted() && $form->isValid()) {
+
+			//On récupère les images transmises
+			$images = $form->get('images')->getData();
+
+			// On boucle sur les images
+			foreach ($images as $image) {
+				// On génère un nouveau nom de fichier
+				$file = md5(uniqid()) . '.' . $image->guessExtension();
+
+				// On copie le fichier dans le dossier uploads
+				$image->move(
+					$this->getParameter('images_directory'),
+					$file
+				);
+
+				// On stocke l'image (son nom) dans la BDD
+				$img = new Images();
+				$img->setTitle($file);
+				$trick->addImage($img);
+			}
+
+			$tricksRepository->add($trick, true);
+
+			$this->addFlash('success', 'Le trick à été mis à jour !');
+			return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
+		}
+
+		return $this->renderForm('tricks/edit.html.twig', [
+			'trick' => $trick,
+			'form' => $form,
+		]);
+	}
+
+	/**
+	 * @Route("/delete/{id}", name="app_tricks_delete", methods={"POST", "DELETE"})
+	 */
+	public function delete(Request $request, Tricks $trick, TricksRepository $tricksRepository): Response
+	{
+
+		if ($this->isCsrfTokenValid('delete' . $trick->getId(), $request->request->get('_token'))) {
+			$tricksRepository->remove($trick, true);
+		}
+
+		return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
+	}
+
+	/**
+	 * @Route("/delete/image/{id}", name="app_tricks_delete_image", methods={"DELETE"})
+	 */
+	public function deleteImage(Images $image, Request $request): Response
+	{
+		$data = json_decode($request->getContent(), true);
+
+		// On récupère le nom de l'image
+		$nom = $image->getTitle();
+		// On supprime le fichier
+		unlink($this->getParameter('images_directory') . '/' . $nom);
+
+		// On suprime l'entrée de la base
+		$em = $this->getDoctrine()->getManager();
+		$em->remove($image);
+		$em->flush();
+
+		// On répond en json
+		return new JsonResponse(['success' => 1]);
+	}
 }

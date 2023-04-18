@@ -16,62 +16,50 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class TricksRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
-    {
-        parent::__construct($registry, Tricks::class);
-    }
+	public function __construct(ManagerRegistry $registry)
+	{
+		parent::__construct($registry, Tricks::class);
+	}
 
-    public function add(Tricks $entity, bool $flush = false): void
-    {
-        $this->getEntityManager()->persist($entity);
+	public function add(Tricks $entity, bool $flush = false): void
+	{
+		$this->getEntityManager()->persist($entity);
 
-        if ($flush) {
-            $this->getEntityManager()->flush();
-        }
-    }
+		if ($flush) {
+			$this->getEntityManager()->flush();
+		}
+	}
 
-    public function remove(Tricks $entity, bool $flush = false): void
-    {
-        $this->getEntityManager()->remove($entity);
+	public function remove(Tricks $entity, bool $flush = false): void
+	{
+		$this->getEntityManager()->remove($entity);
 
-        if ($flush) {
-            $this->getEntityManager()->flush();
-        }
-    }
+		if ($flush) {
+			$this->getEntityManager()->flush();
+		}
+	}
 
 
-    /**
-     * @return void
-     */
-    public function getPaginatedTricks($page, $limit)
-    {
-        $query = $this->createQueryBuilder('t')
+	/**
+	 * @return void
+	 */
+	public function getPaginatedTricks($page, $limit)
+	{
+		$query = $this->createQueryBuilder('t')
+			->orderBy('t.date', 'DESC')
+			->setFirstResult(($page * $limit) - $limit)
+			->setMaxResults($limit);
+		return $query->getQuery()->getResult();
+	}
 
-            ->orderBy('t.date', 'DESC')
-            ->setFirstResult(($page * $limit) - $limit)
-            ->setMaxResults($limit);
-        return $query->getQuery()->getResult();
-    }
+	/**
+	 * @return void
+	 */
+	public function getTotalTricks()
+	{
+		$query = $this->createQueryBuilder('t')
+			->select('COUNT(t)');
 
-    /**
-     * @return void
-     */
-    public function getTotalTricks()
-    {
-        $query = $this->createQueryBuilder('t')
-
-            ->select('COUNT(t)');
-
-        return $query->getQuery()->getSingleScalarResult();
-    }
-
-    //    public function findOneBySomeField($value): ?Tricks
-    //    {
-    //        return $this->createQueryBuilder('t')
-    //            ->andWhere('t.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+		return $query->getQuery()->getSingleScalarResult();
+	}
 }

@@ -16,24 +16,27 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class MainController extends AbstractController
 {
-    /**
-     * @Route("/", name="app_home")
-     */
-    public function index(TricksRepository $tricksRepository, CategoriesRepository $categoriesRepository, Request $request): Response
-    {
-        // On définit le nombre d'éléments par page
-        $limit = 10;
+	/**
+	 * @Route("/", name="app_home")
+	 */
+	public function index(
+		TricksRepository $tricksRepository,
+		CategoriesRepository $categoriesRepository,
+		Request $request
+	): Response {
+		// On définit le nombre d'éléments par page
+		$limit = 10;
 
-        // On récupère le numéro de page
-        $page = (int)$request->query->get("page", 1);
+		// On récupère le numéro de page
+		$page = (int)$request->query->get("page", 1);
 
-        // On récupère les tricks de la page
-        $tricks = $tricksRepository->getPaginatedTricks($page, $limit);
+		// On récupère les tricks de la page
+		$tricks = $tricksRepository->getPaginatedTricks($page, $limit);
 
-        // On récupère le nombre total de tricks
-        $total = $tricksRepository->getTotalTricks();
+		// On récupère le nombre total de tricks
+		$total = $tricksRepository->getTotalTricks();
 
 
-        return $this->render('main/index.html.twig', compact('tricks', 'total', 'limit', 'page'));
-    }
+		return $this->render('main/index.html.twig', compact('tricks', 'total', 'limit', 'page'));
+	}
 }

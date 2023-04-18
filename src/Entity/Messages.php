@@ -13,92 +13,92 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Messages
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+	/**
+	 * @ORM\Id
+	 * @ORM\GeneratedValue
+	 * @ORM\Column(type="integer")
+	 */
+	private $id;
 
-    /**
-     * @ORM\Column(type="text")
-     */
-    private $content;
+	/**
+	 * @ORM\Column(type="text")
+	 */
+	private $content;
 
-    /**
-     * @Gedmo\Timestampable(on="create")
-     * @ORM\Column(type="date")
-     */
-    private $date;
+	/**
+	 * @Gedmo\Timestampable(on="create")
+	 * @ORM\Column(type="date")
+	 */
+	private $date;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Users::class, inversedBy="messages")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $user;
+	/**
+	 * @ORM\ManyToOne(targetEntity=Users::class, inversedBy="messages")
+	 * @ORM\JoinColumn(nullable=false)
+	 */
+	private $user;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Tricks::class, inversedBy="messages")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $trick;
+	/**
+	 * @ORM\ManyToOne(targetEntity=Tricks::class, inversedBy="messages")
+	 * @ORM\JoinColumn(nullable=false)
+	 */
+	private $trick;
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
+	public function getId(): ?int
+	{
+		return $this->id;
+	}
 
-    public function getContent(): ?string
-    {
-        return $this->content;
-    }
+	public function getContent(): ?string
+	{
+		return $this->content;
+	}
 
-    public function setContent(string $content): self
-    {
-        $this->content = $content;
+	public function setContent(string $content): self
+	{
+		$this->content = $content;
 
-        return $this;
-    }
+		return $this;
+	}
 
-    public function getDate(): ?\DateTimeInterface
-    {
-        return $this->date;
-    }
+	public function getDate(): ?\DateTimeInterface
+	{
+		return $this->date;
+	}
 
-    // public function setDate(\DateTimeInterface $date): self
-    // {
-    //     $this->date = $date;
+	// public function setDate(\DateTimeInterface $date): self
+	// {
+	//     $this->date = $date;
 
-    //     return $this;
-    // }
+	//     return $this;
+	// }
 
-    public function getUser(): ?Users
-    {
-        return $this->user;
-    }
+	public function getUser(): ?Users
+	{
+		return $this->user;
+	}
 
-    public function setUser(?Users $user): self
-    {
-        $this->user = $user;
+	public function setUser(?Users $user): self
+	{
+		$this->user = $user;
 
-        return $this;
-    }
+		return $this;
+	}
 
-    public function getTrick(): ?Tricks
-    {
-        return $this->trick;
-    }
+	public function getTrick(): ?Tricks
+	{
+		return $this->trick;
+	}
 
-    public function setTrick(?Tricks $trick): self
-    {
-        $this->trick = $trick;
+	public function setTrick(?Tricks $trick): self
+	{
+		$this->trick = $trick;
 
-        return $this;
-    }
+		return $this;
+	}
 
 
-    public function __toString()
-    {
-        return $this->content;
-    }
+	public function __toString()
+	{
+		return $this->content;
+	}
 }

@@ -2,53 +2,60 @@
     <div class="container px-4 px-lg-5">
         <div class="row gx-4 gx-lg-5 justify-content-center">
             <div class="col-md-10 col-lg-8 col-xl-7">
-                    <h1>Ajouter un trick</h1>
+                <h1>Ajouter un trick</h1>
                 <div class="my-5">
-                    
-                    {{ form_start(form) }}
-                        <div class="form-floating">
-                            {{ form_row(form.title) }}
-                        </div>
-                        <div class="form-floating">
-                            {{ form_row(form.content) }}
-                        </div>
-                        <div class="form-floating">
-                            {{ form_row(form.categories) }}
-                        </div>
-                        <div class="form-floating">
-                            {{ form_row(form.images) }}
-                            <div style="color:#6c757d;font-size:0.7em;">(La 1ere image que vous choisirez sera celle qui illustrera l'entête du trick)</div>
-                        </div>
-                        </br>
 
-                        <!--Formulaire d'ajout de VIDEOS-->
-                        <div clas="form-floating">
-                        <ul class="videos" data-index="{{ form.videos|length > 0 ? form.videos|last.vars.name + 1 : 0 }}"
-                        data-prototype="{{ form_widget(form.videos.vars.prototype)|e('html_attr') }}">
+                    {{ form_start(form) }}
+                    <div class="form-floating">
+                        {{ form_row(form.title) }}
+                    </div>
+                    <div class="form-floating">
+                        {{ form_row(form.content) }}
+                    </div>
+                    <div class="form-floating">
+                        {{ form_row(form.categories) }}
+                    </div>
+                    <div class="form-floating">
+                        {{ form_row(form.images) }}
+                        <div style="color:#6c757d;font-size:0.7em;">(La 1ere image que vous choisirez sera celle qui
+                            illustrera l'entête du trick)
+                        </div>
+                    </div>
+                    </br>
+
+                    <!--Formulaire d'ajout de VIDEOS-->
+                    <div clas="form-floating">
+                        <ul class="videos"
+                            data-index="{{ form.videos|length > 0 ? form.videos|last.vars.name + 1 : 0 }}"
+                            data-prototype="{{ form_widget(form.videos.vars.prototype)|e('html_attr') }}">
                             {% for video in form.videos %}
                                 <li>
                                     {{ form_row(video) }}
                                 </li>
                             {% endfor %}
                         </ul>
-                        <button type="button" class="add_item_link btn btn-primary text-uppercase" data-collection-holder-class="videos">Ajouter une vidéo</button>
-                        </div>
-                        </br>
+                        <button type="button" class="add_item_link btn btn-primary text-uppercase"
+                                data-collection-holder-class="videos">Ajouter une vidéo
+                        </button>
+                    </div>
+                    </br>
 
-                        {# Vérifier si le route est "annonces_edit", alors on affiche les images #}
-                        {% if app.request.attributes.get('_route') == 'app_tricks_edit' %}
-                            <hr class="my-2" />
-                            <h2>Images</h2></br>
-                            <div class="row">
+                    {# Vérifier si le route est "annonces_edit", alors on affiche les images #}
+                    {% if app.request.attributes.get('_route') == 'app_tricks_edit' %}
+                        <hr class="my-2"/>
+                        <h2>Images</h2></br>
+                        <div class="row">
                             {% for image in trick.images %}
-                            <div class="col-12 col-md-6 align-content-center" style="padding-bottom:4%;">
-                                <img src="{{ asset('/uploads/'~image.title) }}" alt="Image" width="100%" style="padding-bottom:4%;"></br>
-                                <a href="{{ path('app_tricks_delete_image', {'id': image.id}) }}" data-delete data-token="{{ csrf_token('delete' ~ image.id) }}">Supprimer</a>
-                            </div>
+                                <div class="col-12 col-md-6 align-content-center" style="padding-bottom:4%;">
+                                    <img src="{{ asset('/uploads/'~image.title) }}" alt="Image" width="100%"
+                                         style="padding-bottom:4%;"></br>
+                                    <a href="{{ path('app_tricks_delete_image', {'id': image.id}) }}" data-delete
+                                       data-token="{{ csrf_token('delete' ~ image.id) }}">Supprimer</a>
+                                </div>
                             {% endfor %}
-                            </div>
-                        {% endif %}
-                        <button class="btn btn-primary text-uppercase">{{ button_label|default('Save') }}</button>
+                        </div>
+                    {% endif %}
+                    <button class="btn btn-primary text-uppercase">{{ button_label|default('Save') }}</button>
                     {{ form_end(form) }}
                 </div>
             </div>
@@ -66,8 +73,8 @@
             .dataset
             .prototype
             .replace(
-            /__name__/g,
-            collectionHolder.dataset.index
+                /__name__/g,
+                collectionHolder.dataset.index
             );
 
         collectionHolder.appendChild(item);
@@ -76,7 +83,7 @@
 
         // add a delete link to the new form
         addTagFormDeleteLink(item);
-        };
+    };
 
     const addTagFormDeleteLink = (item) => {
         const removeFormButton = document.createElement('button');
@@ -93,13 +100,13 @@
 
 
     document
-    .querySelectorAll('ul.videos li')
-    .forEach((btn) => {
-        addTagFormDeleteLink(btn)
-    })
+        .querySelectorAll('ul.videos li')
+        .forEach((btn) => {
+            addTagFormDeleteLink(btn)
+        })
     document
-    .querySelectorAll('.add_item_link')
-    .forEach(btn => {
-        btn.addEventListener("click", addFormToCollection)
-    });
+        .querySelectorAll('.add_item_link')
+        .forEach(btn => {
+            btn.addEventListener("click", addFormToCollection)
+        });
 </script>
