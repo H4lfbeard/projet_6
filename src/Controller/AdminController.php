@@ -33,6 +33,7 @@ class AdminController extends AbstractController
 
     /**
      * @Route("/categories/add", name="categories_add")
+     * @IsGranted("ROLE_USER")
      */
     public function addCategorie(Request $request): Response
     {

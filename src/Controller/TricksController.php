@@ -22,6 +22,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Validator\Constraints\DateTime;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 /**
  * @Route("/tricks")
@@ -41,51 +42,39 @@ class TricksController extends AbstractController
 
     /**
      * @Route("/new", name="app_tricks_new", methods={"GET", "POST"})
+     * @IsGranted("ROLE_USER")
      */
     public function new(Request $request, TricksRepository $tricksRepository): Response
     {
-        // Get the currently logged in user
-        $user = $this->getUser();
 
+        $user = $this->getUser();
         $trick = new Tricks();
         $video = new Videos();
-
-        // Set the user ID
         $trick->setUser($this->getUser());
-
         $form = $this->createForm(TricksType::class, $trick);
         $form->handleRequest($request);
 
-
         if ($form->isSubmitted() && $form->isValid()) {
-            //On récupère les images transmises
+
             $images = $form->get('images')->getData();
 
-            // On boucle sur les images
             foreach ($images as $image) {
-                // On génère un nouveau nom de fichier
+
                 $file = md5(uniqid()) . '.' . $image->guessExtension();
 
-                // On copie le fichier dans le dossier uploads
                 $image->move(
                     $this->getParameter('images_directory'),
                     $file
                 );
 
-                // On stocke l'image (son nom) dans la BDD
                 $img = new Images();
                 $img->setTitle($file);
                 $trick->addImage($img);
-
-                // // Set the user ID
-                // $trick->setUser($this->getUser());
             }
 
-            //On récupère les videos transmises
             $videos = $form->get('videos')->getData();
             foreach ($videos as $video) {
                 $video->setTrick($trick);
-
                 $trick->getVideos()->add($video);
             }
 
@@ -156,6 +145,7 @@ class TricksController extends AbstractController
     /**
      * @Route("/{slug}-{id}/edit", name="app_tricks_edit", methods={"GET", "POST"}, requirements={"slug":
      *     "[a-z0-9\-]*"})
+     * @IsGranted("ROLE_USER")
      */
     public function edit(Request $request, Tricks $trick, TricksRepository $tricksRepository): Response
     {
@@ -191,6 +181,7 @@ class TricksController extends AbstractController
 
     /**
      * @Route("/delete/{id}", name="app_tricks_delete", methods={"POST", "DELETE"})
+     * @IsGranted("ROLE_USER")
      */
     public function delete(Request $request, Tricks $trick, TricksRepository $tricksRepository): Response
     {
