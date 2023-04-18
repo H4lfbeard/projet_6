@@ -10,57 +10,58 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Videos
 {
-	/**
-	 * @ORM\Id
-	 * @ORM\GeneratedValue
-	 * @ORM\Column(type="integer")
-	 */
-	private $id;
+    /**
+     * @ORM\Id
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
+     */
+    private $id;
 
-	/**
-	 * @ORM\Column(type="string", length=1000, nullable=true)
-	 */
-	private $url;
+    /**
+     * @ORM\Column(type="string", length=1000, nullable=true)
+     */
+    private $url;
 
-	/**
-	 * @ORM\ManyToOne(targetEntity=Tricks::class, inversedBy="videos")
-	 * @ORM\JoinColumn(nullable=false)
-	 */
-	private $trick;
+    /**
+     * @ORM\ManyToOne(targetEntity=Tricks::class, inversedBy="videos")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $trick;
 
-	public function getId(): ?int
-	{
-		return $this->id;
-	}
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
 
-	public function SetId(?string $id): ?int
-	{
-		$this->id = $id;
+    public function SetId(?string $id): ?int
+    {
+        $this->id = $id;
+        
+        return $this->id;
+    }
 
-		return $this->id;
-	}
+    public function getUrl(): ?string
+    {
+        return $this->url;
+    }
 
-	public function getUrl(): ?string
-	{
-		return $this->url;
-	}
+    public function setUrl(?string $url): self
+    {
+        $this->url = $url;
 
-	public function setUrl(?string $url): self
-	{
-		$this->url = $url;
+        return $this;
+    }
 
-		return $this;
-	}
+    public function getTrick(): ?Tricks
+    {
+        return $this->trick;
+    }
 
-	public function getTrick(): ?Tricks
-	{
-		return $this->trick;
-	}
+    public function setTrick(?Tricks $trick): self
+    {
+        $this->trick = $trick;
 
-	public function setTrick(?Tricks $trick): self
-	{
-		$this->trick = $trick;
+        return $this;
+    }
 
-		return $this;
-	}
 }

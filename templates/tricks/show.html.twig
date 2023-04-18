@@ -4,10 +4,10 @@
 
 {% block body %}
     {% if trick.images|length > 0 %}
-<header class="masthead" style="background-image: url('{{ asset('uploads/' ~ trick.images|first.title) }}')">
+    <header class="masthead" style="background-image: url('{{ asset('uploads/' ~ trick.images|first.title) }}')">
     {% else %}
     <header class="masthead" style="background-image: url('{{ asset('img/home-bg.jpg') }}')">
-        {% endif %}
+    {% endif %}
         <div class="container position-relative px-4 px-lg-5">
             <div class="row gx-4 gx-lg-5 justify-content-center">
                 <div class="col-md-10 col-lg-8 col-xl-7">
@@ -19,23 +19,22 @@
             </div>
         </div>
     </header>
-
+    
     {% for flash_message in app.session.flashbag.get('message') %}
-        <div class="container px-4 px-lg-5 mt-5">
-            <div class="row justify-content-left">
-                <div class="alert alert-success">{{ flash_message }}</div>
-            </div>
+    <div class="container px-4 px-lg-5 mt-5">
+        <div class="row justify-content-left">
+            <div class="alert alert-success">{{ flash_message }}</div>
         </div>
+    </div>
     {% endfor %}
-
+    
     <section class="py-1">
         <div class="container px-4 px-lg-5 mt-5">
             <div class="row justify-content-left" id="d1">
                 {% for image in trick.images %}
                     <div class="col-12 col-md-6 col-xl-4" style="padding-bottom:3%;">
                         {% if trick.images|length > 0 %}
-                            <img class="card-img-top" src="{{ asset('uploads/' ~ image.title) }}"
-                                 alt="{{ trick.title }}" style="width: 100%; height: 250px; object-fit: cover;"/>
+                            <img class="card-img-top" src="{{ asset('uploads/' ~ image.title) }}" alt="{{ trick.title }}" style="width: 100%; height: 250px; object-fit: cover;" />
                         {% endif %}
                     </div>
                 {% endfor %}
@@ -48,7 +47,7 @@
                 {% endfor %}
             </div>
             <div class="row justify-content-left">
-                <button class="btn btn-primary text-uppercase" id="togg1">Voir les médias</button>
+            <button class="btn btn-primary text-uppercase" id="togg1">Voir les médias</button>
             </div>
             </br>
             <div class="row col-12 justify-content-left">
@@ -71,34 +70,33 @@
                     <p><strong>Catégorie :</strong> {{ trick.categories }}</p>
                 </div>
             </div>
-            <hr class="my-4"/>
+            <hr class="my-4" />
         </div>
     </section>
 
     <!-- FORM MESSAGE -->
     {% if app.user %}
-        <section class="mb-4">
-            <div class="container px-4 px-lg-5">
-                <div class="row gx-4 gx-lg-5 justify-content-center">
-                    <div class="col-md-10 col-lg-8 col-xl-7">
+    <section class="mb-4">
+        <div class="container px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
                         <h2>Laisser un commentaire</h2>
-                        <div class="my-5">
-                            {{ form_start(form) }}
+                    <div class="my-5"> 
+                        {{ form_start(form) }}
                             <div class="form-floating">
                                 {{ form(form) }}
                             </div>
-                            {{ form_end(form) }}
-                        </div>
+                        {{ form_end(form) }}
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
     {% else %}
-        <div class="container px-4 px-lg-5 mt-5">
+     <div class="container px-4 px-lg-5 mt-5">
             <div class="row col-12 justify-content-center">
                 <p style="text-align:center;">
-                    Pour pouvoir laisser un commentaire <a href="{{ path('app_login') }}">Je me connecte</a>| <a
-                            href="{{ path('app_register') }}">Je m'inscris</a>
+                    Pour pouvoir laisser un commentaire <a href="{{ path('app_login') }}">Je me connecte</a>| <a href="{{ path('app_register') }}">Je m'inscris</a>
                 </p>
             </div>
         </div>
@@ -106,71 +104,61 @@
 
     <!-- RENDER MESSAGE -->
     {% if trick.messages|length > 0 %}
-        <section class="mb-4">
-            <div class="container px-4 px-lg-5">
-                <div class="row gx-4 gx-lg-5 justify-content-center">
-                    <div class="col-md-10 col-lg-8 col-xl-7" id="comments">
-                        <h2>Liste des commentaires</h2>
-                        <div id="d2">
-                            {% for message in messages %}
-                                <div class="my-5">
-                                    <div class="form-floating">
-                                        {{ message.content }}
-                                    </div>
-                                    <div class="form-floating">
-                                        <p>
-                                            {# {% if app.user %}
+    <section class="mb-4">
+        <div class="container px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7" id="comments">
+                    <h2>Liste des commentaires</h2>
+                    <div id="d2">
+                        {% for message in messages %}
+                        <div class="my-5"> 
+                            <div class="form-floating">
+                                {{ message.content }}
+                            </div>
+                            <div class="form-floating">
+                                <p>
+                                {# {% if app.user %}
                                     <img class="card-img-top" src="{{ asset('uploads/' ~ app.user.images) }}" style="width: 50px; height: 50px; object-fit: cover; border-radius:25px;" />
                                 {% else %} #}
-                                            <img class="card-img-top" src="{{ asset('img/user.png') }}"
-                                                 style="width: 50px; height: 50px; object-fit: cover; border-radius:25px;"/>
-                                            {# {% endif %} #}
-                                            <strong>{{ message.user }}</strong> | Le
-                                            <strong>{{ message.date|date('Y-m-d') }}</strong></p>
-                                    </div>
-                                </div>
-                            {% endfor %}
+                                    <img class="card-img-top" src="{{ asset('img/user.png') }}" style="width: 50px; height: 50px; object-fit: cover; border-radius:25px;" />
+                                {# {% endif %} #}
+                                <strong>{{ message.user }}</strong> | Le <strong>{{ message.date|date('Y-m-d') }}</strong></p>
+                            </div>
                         </div>
-                        <hr class="my-2"/>
+                        {% endfor %}
                     </div>
-                    <div class="col-md-10 col-lg-8 col-xl-7">
-                        <nav aria-label="Page navigation">
-                            {% set pages = (total / limit)|round(0, 'ceil') %}
-                            <ul class="pagination">
-                                <li class="page-item {{ (page == 1) ? 'disabled' : '' }}">
-                                    <a class="page-link" href="{{ (page > 1) ? '?page=' ~ (page - 1) : '' }}"><i
-                                                class="fa-solid fa-arrow-left"></i></a>
-                                </li>
-                                {% for item in 1..((total / limit)|round(0, 'ceil')) %}
-                                    <li class="page-item {{ (page == item) ? 'active' : '' }}">
-                                        <a class="page-link" href="?page={{ item }}#comments">{{ item }}</a>
-                                    </li>
-                                {% endfor %}
-                                <li class="page-item {{ (page == pages) ? 'disabled' : '' }}">
-                                    <a class="page-link" href="{{ (page < pages) ? '?page=' ~ (page + 1) : '' }}"><i
-                                                class="fa-solid fa-arrow-right"></i></a>
-                                </li>
-                            </ul>
-                        </nav>
-                    </div>
+                    <hr class="my-2" />
+                </div>
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                <nav aria-label="Page navigation">
+                    {% set pages = (total / limit)|round(0, 'ceil') %}
+                    <ul class="pagination">
+                        <li class="page-item {{ (page == 1) ? 'disabled' : '' }}">
+                            <a class="page-link" href="{{ (page > 1) ? '?page=' ~ (page - 1) : '' }}"><i class="fa-solid fa-arrow-left"></i></a>
+                        </li>
+                        {% for item in 1..((total / limit)|round(0, 'ceil')) %}
+                            <li class="page-item {{ (page == item) ? 'active' : '' }}">
+                                <a class="page-link" href="?page={{ item }}#comments">{{ item }}</a>
+                            </li>
+                        {% endfor %}
+                        <li class="page-item {{ (page == pages) ? 'disabled' : '' }}">
+                            <a class="page-link" href="{{ (page < pages) ? '?page=' ~ (page + 1) : '' }}"><i class="fa-solid fa-arrow-right"></i></a>
+                        </li>
+                    </ul>
+                </nav>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
     {% endif %}
 
     <section class="py-5">
         <div class="container px-4 px-lg-5 mt-5">
             <div class="row col-12 justify-content-center">
-                <div class="d-flex col-8 col-sm-4 justify-content-center mb-4"><a class="btn btn-primary text-uppercase"
-                                                                                  href="{{ path('app_home') }}">Retour à
-                        la liste</a></div>
+                <div class="d-flex col-8 col-sm-4 justify-content-center mb-4"><a class="btn btn-primary text-uppercase" href="{{ path('app_home') }}">Retour à la liste</a></div>
                 {% if app.user %}
-                    <div class="d-flex col-8 col-sm-4 justify-content-center mb-4"><a
-                                class="btn btn-primary text-uppercase"
-                                href="{{ path('app_tricks_edit', {'id': trick.id, 'slug': trick.slug}) }}">Éditer</a>
-                    </div>
-                    <div id="SUPPRIMER"
-                         class="d-flex col-8 col-sm-4 justify-content-center mb-4">{{ include('tricks/_delete_form.html.twig') }}</div>
+                <div class="d-flex col-8 col-sm-4 justify-content-center mb-4"><a class="btn btn-primary text-uppercase" href="{{ path('app_tricks_edit', {'id': trick.id, 'slug': trick.slug}) }}">Éditer</a></div>
+                <div id="SUPPRIMER" class="d-flex col-8 col-sm-4 justify-content-center mb-4">{{ include('tricks/_delete_form.html.twig') }}</div>
                 {% endif %}
             </div>
         </div>
@@ -182,23 +170,23 @@
         let d1 = document.getElementById("d1");
         let d2 = document.getElementById("d2");
         togg1.addEventListener("click", () => {
-            if (getComputedStyle(d1).display != "none") {
-                d1.style.display = "none";
-            } else {
-                d1.style.display = "block";
-            }
+        if(getComputedStyle(d1).display != "none"){
+            d1.style.display = "none";
+        } else {
+            d1.style.display = "block";
+        }
         })
 
-        function togg() {
-            if (getComputedStyle(d2).display != "none") {
-                d2.style.display = "none";
-            } else {
-                d2.style.display = "block";
-            }
+        function togg(){
+        if(getComputedStyle(d2).display != "none"){
+            d2.style.display = "none";
+        } else {
+            d2.style.display = "block";
+        }
         };
         togg2.onclick = togg;
     </script>
 
 
-    {% endblock %}
+{% endblock %}
 

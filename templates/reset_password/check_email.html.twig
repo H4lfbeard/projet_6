@@ -19,17 +19,13 @@
         <div class="container px-4 px-lg-5">
             <div class="row gx-4 gx-lg-5 justify-content-center">
                 <div class="col-md-10 col-lg-8 col-xl-7">
-                    <h1>Réinitialisez votre mot de passe</h1>
-                    <div class="my-5">
+                        <h1>Réinitialisez votre mot de passe</h1>
+                    <div class="my-5">   
                         <p>
-                            Si un compte est lié à l'adresse email que vous avez soumis, un email vient de vous êtres
-                            envoyé pour vous permettre de réinitialiser votre mot de passe.
-                            Ce lien expirera
-                            dans {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}
-                            .
+                        Si un compte est lié à l'adresse email que vous avez soumis, un email vient de vous êtres envoyé pour vous permettre de réinitialiser votre mot de passe.
+                        Ce lien expirera dans {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}.
                         </p>
-                        <p>Si vous ne recevez pas l'email, vérifier vos spams, sinon <a
-                                    href="{{ path('app_forgot_password_request') }}">veuillez retenter</a>.</p>
+                        <p>Si vous ne recevez pas l'email, vérifier vos spams, sinon <a href="{{ path('app_forgot_password_request') }}">veuillez retenter</a>.</p>
                     </div>
                 </div>
             </div>

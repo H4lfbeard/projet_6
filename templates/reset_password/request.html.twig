@@ -3,17 +3,17 @@
 {% block title %}Reset your password{% endblock %}
 
 {% block body %}
-    <header class="masthead" style="background-image: url('{{ asset('img/login-bg.jpg') }}')">
-        <div class="container position-relative px-4 px-lg-5">
-            <div class="row gx-4 gx-lg-5 justify-content-center">
-                <div class="col-md-10 col-lg-8 col-xl-7">
-                    <div class="site-heading">
-                        <h1>Mot de passe oublié</h1>
-                    </div>
+<header class="masthead" style="background-image: url('{{ asset('img/login-bg.jpg') }}')">
+    <div class="container position-relative px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <div class="site-heading">
+                    <h1>Mot de passe oublié</h1>
                 </div>
             </div>
         </div>
-    </header>
+    </div>
+</header>
 
     {% for flash_error in app.flashes('reset_password_error') %}
         <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
@@ -23,21 +23,21 @@
         <div class="container px-4 px-lg-5">
             <div class="row gx-4 gx-lg-5 justify-content-center">
                 <div class="col-md-10 col-lg-8 col-xl-7">
-                    <h1>Mot de passe oublié</h1>
-                    <div class="my-5">
+                        <h1>Mot de passe oublié</h1>
+                    <div class="my-5">   
                         {{ form_start(requestForm) }}
-                        <div class="form-floating">
-                            {{ form_row(requestForm.email) }}
-                        </div>
-                        <div>
-                            <small>
-                                Entrez votre email et nous vous renverrons un email de réinitialisation de mot de passe.
-                            </small>
-                        </div>
-                        <br/>
-                        <!-- Submit Button-->
-                        <button type="submit" class="btn btn-primary text-uppercase">Envoyer l'email</button>
-                        {{ form_end(requestForm) }}
+                            <div class="form-floating">
+                                {{ form_row(requestForm.email) }}
+                            </div>
+                            <div>
+                                <small>
+                                   Entrez votre email et nous vous renverrons un email de réinitialisation de mot de passe.
+                                </small>
+                            </div>
+                            <br />
+                            <!-- Submit Button-->
+                            <button type="submit" class="btn btn-primary text-uppercase">Envoyer l'email</button>
+                        {{ form_end(requestForm) }}   
                     </div>
                 </div>
             </div>
