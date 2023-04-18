@@ -108,15 +108,12 @@ class TricksController extends AbstractController
      */
     public function show(Request $request, Tricks $trick, MessagesRepository $messagesRepository): Response
     {
-        // Get the currently logged in user
         $user = $this->getUser();
 
-        //Création du formulaire
         $message = new Messages();
         $form = $this->createForm(MessagesType::class, $message);
         $form->handlerequest($request);
 
-        //traitement du commentaire
         if ($form->isSubmitted() && $form->isValid()) {
 
             $message->setTrick($trick);
@@ -126,17 +123,9 @@ class TricksController extends AbstractController
             $em->persist($message);
             $em->flush();
 
-            // TENTATIVE D'AJOUT DE PAGINATION
-            // On définit le nombre d'éléments par page
             $limit = 10;
-
-            // On récupère le numéro de page
             $page = (int)$request->query->get("page", 1);
-
-            // On récupère les messages liée au trick
             $messages = $messagesRepository->getPaginatedMessages($page, $limit, $trick);
-
-            // On récupère le nombre total de messages liée au trick
             $total = $messagesRepository->getTotalMessages($trick);
 
             $this->addFlash('message', 'Votre commentaire à été bien enregistré');
@@ -150,17 +139,9 @@ class TricksController extends AbstractController
             ]);
         }
 
-        // TENTATIVE D'AJOUT DE PAGINATION
-        // On définit le nombre d'éléments par page
         $limit = 10;
-
-        // On récupère le numéro de page
         $page = (int)$request->query->get("page", 1);
-
-        // On récupère les messages liée au trick
         $messages = $messagesRepository->getPaginatedMessages($page, $limit, $trick);
-
-        // On récupère le nombre total de messages liée au trick
         $total = $messagesRepository->getTotalMessages($trick);
 
 
@@ -185,21 +166,16 @@ class TricksController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            //On récupère les images transmises
             $images = $form->get('images')->getData();
 
-            // On boucle sur les images
             foreach ($images as $image) {
-                // On génère un nouveau nom de fichier
-                $file = md5(uniqid()) . '.' . $image->guessExtension();
 
-                // On copie le fichier dans le dossier uploads
+                $file = md5(uniqid()) . '.' . $image->guessExtension();
                 $image->move(
                     $this->getParameter('images_directory'),
                     $file
                 );
 
-                // On stocke l'image (son nom) dans la BDD
                 $img = new Images();
                 $img->setTitle($file);
                 $trick->addImage($img);
@@ -237,17 +213,13 @@ class TricksController extends AbstractController
     {
         $data = json_decode($request->getContent(), true);
 
-        // On récupère le nom de l'image
         $nom = $image->getTitle();
-        // On supprime le fichier
         unlink($this->getParameter('images_directory') . '/' . $nom);
 
-        // On suprime l'entrée de la base
         $em = $this->getDoctrine()->getManager();
         $em->remove($image);
         $em->flush();
 
-        // On répond en json
         return new JsonResponse(['success' => 1]);
     }
 }

@@ -39,7 +39,6 @@ class TricksRepository extends ServiceEntityRepository
         }
     }
 
-
     /**
      * @return void
      */

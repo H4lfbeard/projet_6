@@ -128,8 +128,8 @@ class Tricks
     }
 
     /**
-     * @return Collection<int, Messages>
-     */
+    * @return Collection<int, Messages>
+    */
     public function getMessages(): Collection
     {
         return $this->messages;
@@ -158,8 +158,8 @@ class Tricks
     }
 
     /**
-     * @return Collection<int, Images>
-     */
+    * @return Collection<int, Images>
+    */
     public function getImages(): Collection
     {
         return $this->images;
@@ -188,8 +188,8 @@ class Tricks
     }
 
     /**
-     * @return Collection<int, Videos>
-     */
+    * @return Collection<int, Videos>
+    */
     public function getVideos(): Collection
     {
         return $this->videos;

@@ -51,30 +51,6 @@ class RegistrationController extends AbstractController
                 )
             );
 
-
-            // //On récupère les images transmises
-            // $images = $form->get('images')->getData();
-
-            // foreach ($images as $image) {
-            //     if ($image) {
-            //         // generate a unique filename for the image
-            //         $file = uniqid().'.'.$image->guessExtension();
-
-            //         // move the uploaded file to a directory
-            //         $image->move(
-            //             $this->getParameter('images_directory'),
-            //             $file
-            //         );
-
-            //         // create a new image object and set the filename
-            //         $image = new Images();
-            //         $image->setTitle($file);
-
-            //         // add the image to the entity's image collection
-            //         $user->setImages($image);
-            //     }
-            // }
-
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
@@ -89,7 +65,6 @@ class RegistrationController extends AbstractController
                     ->subject('Please Confirm your Email')
                     ->htmlTemplate('registration/confirmation_email.html.twig')
             );
-            // do anything else you need here, like send an email
 
             return $userAuthenticator->authenticateUser(
                 $user,
@@ -110,7 +85,6 @@ class RegistrationController extends AbstractController
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
-        // validate email confirmation link, sets User::isVerified=true and persists
         try {
             $this->emailVerifier->handleEmailConfirmation($request, $this->getUser());
         } catch (VerifyEmailExceptionInterface $exception) {
@@ -119,7 +93,6 @@ class RegistrationController extends AbstractController
             return $this->redirectToRoute('app_register');
         }
 
-        // @TODO Change the redirect on success and handle or remove the flash message in your templates
         $this->addFlash('success', 'Your email address has been verified.');
 
         return $this->redirectToRoute('app_home');

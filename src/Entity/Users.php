@@ -172,8 +172,7 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function eraseCredentials()
     {
-        // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
+
     }
 
     public function isVerified(): bool
@@ -209,7 +208,6 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     public function removeTrick(Tricks $trick): self
     {
         if ($this->tricks->removeElement($trick)) {
-            // set the owning side to null (unless already changed)
             if ($trick->getUser() === $this) {
                 $trick->setUser(null);
             }
@@ -239,7 +237,6 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     public function removeMessage(Messages $message): self
     {
         if ($this->messages->removeElement($message)) {
-            // set the owning side to null (unless already changed)
             if ($message->getUser() === $this) {
                 $message->setUser(null);
             }
@@ -309,12 +306,10 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function setImages(?Images $images): self
     {
-        // unset the owning side of the relation if necessary
         if ($images === null && $this->images !== null) {
             $this->images->setUser(null);
         }
 
-        // set the owning side of the relation if necessary
         if ($images !== null && $images->getUser() !== $this) {
             $images->setUser($this);
         }

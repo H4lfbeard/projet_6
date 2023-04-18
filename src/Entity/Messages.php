@@ -65,13 +65,6 @@ class Messages
         return $this->date;
     }
 
-    // public function setDate(\DateTimeInterface $date): self
-    // {
-    //     $this->date = $date;
-
-    //     return $this;
-    // }
-
     public function getUser(): ?Users
     {
         return $this->user;
@@ -95,7 +88,6 @@ class Messages
 
         return $this;
     }
-
 
     public function __toString()
     {
