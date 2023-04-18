@@ -38,7 +38,6 @@ class AdminController extends AbstractController
     {
         $categorie = new Categories;
         $form = $this->createForm(CategoriesType::class, $categorie);
-
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
