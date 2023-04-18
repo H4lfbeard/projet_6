@@ -108,8 +108,11 @@ class ResetPasswordController extends AbstractController
         } catch (ResetPasswordExceptionInterface $e) {
             $this->addFlash('reset_password_error', sprintf(
                 '%s - %s',
-                $translator->trans(ResetPasswordExceptionInterface::MESSAGE_PROBLEM_VALIDATE, [],
-                    'ResetPasswordBundle'),
+                $translator->trans(
+                    ResetPasswordExceptionInterface::MESSAGE_PROBLEM_VALIDATE,
+                    [],
+                    'ResetPasswordBundle'
+                ),
                 $translator->trans($e->getReason(), [], 'ResetPasswordBundle')
             ));
 
@@ -160,7 +163,6 @@ class ResetPasswordController extends AbstractController
         try {
             $resetToken = $this->resetPasswordHelper->generateResetToken($user);
         } catch (ResetPasswordExceptionInterface $e) {
-
             return $this->redirectToRoute('app_check_email');
         }
 

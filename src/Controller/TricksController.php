@@ -58,7 +58,6 @@ class TricksController extends AbstractController
 
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             //On récupère les images transmises
             $images = $form->get('images')->getData();
 
@@ -115,7 +114,6 @@ class TricksController extends AbstractController
         $form->handlerequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $message->setTrick($trick);
             $message->setUser($user);
 
@@ -165,11 +163,9 @@ class TricksController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $images = $form->get('images')->getData();
 
             foreach ($images as $image) {
-
                 $file = md5(uniqid()) . '.' . $image->guessExtension();
                 $image->move(
                     $this->getParameter('images_directory'),
