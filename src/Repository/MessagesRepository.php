@@ -17,67 +17,54 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class MessagesRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
-    {
-        parent::__construct($registry, Messages::class);
-    }
+	public function __construct(ManagerRegistry $registry)
+	{
+		parent::__construct($registry, Messages::class);
+	}
 
-    public function add(Messages $entity, bool $flush = false): void
-    {
-        $this->getEntityManager()->persist($entity);
+	public function add(Messages $entity, bool $flush = false): void
+	{
+		$this->getEntityManager()->persist($entity);
 
-        if ($flush) {
-            $this->getEntityManager()->flush();
-        }
-    }
+		if ($flush) {
+			$this->getEntityManager()->flush();
+		}
+	}
 
-    public function remove(Messages $entity, bool $flush = false): void
-    {
-        $this->getEntityManager()->remove($entity);
+	public function remove(Messages $entity, bool $flush = false): void
+	{
+		$this->getEntityManager()->remove($entity);
 
-        if ($flush) {
-            $this->getEntityManager()->flush();
-        }
-    }
+		if ($flush) {
+			$this->getEntityManager()->flush();
+		}
+	}
 
-   /**
-    * @return void
-    */
-    public function getPaginatedMessages($page, $limit, Tricks $trick)
-    {
-        $query = $this->createQueryBuilder('m')
-            ->where('m.trick = :trick')
-            ->orderBy('m.date', 'DESC')
-            ->setParameter('trick', $trick)
-            ->setMaxResults($limit)
-            ->setFirstResult(($page * $limit) - $limit)
-            ->setMaxResults($limit);
-    
-        return $query->getQuery()->getResult();
-    }
-    
-    /**
-    * @return void
-    */
-    public function getTotalMessages($trick)
-    {
-        $query = $this->createQueryBuilder('m')
-        ->select('COUNT(m.trick)')
-        ->where('m.trick = :trick')
-        ->setParameter('trick', $trick)
-        ;
-        return $query->getQuery()->getSingleScalarResult();
-    }
+	/**
+	 * @return void
+	 */
+	public function getPaginatedMessages($page, $limit, Tricks $trick)
+	{
+		$query = $this->createQueryBuilder('m')
+			->where('m.trick = :trick')
+			->orderBy('m.date', 'DESC')
+			->setParameter('trick', $trick)
+			->setMaxResults($limit)
+			->setFirstResult(($page * $limit) - $limit)
+			->setMaxResults($limit);
 
+		return $query->getQuery()->getResult();
+	}
 
-
-//    public function findOneBySomeField($value): ?Messages
-//    {
-//        return $this->createQueryBuilder('m')
-//            ->andWhere('m.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+	/**
+	 * @return void
+	 */
+	public function getTotalMessages($trick)
+	{
+		$query = $this->createQueryBuilder('m')
+			->select('COUNT(m.trick)')
+			->where('m.trick = :trick')
+			->setParameter('trick', $trick);
+		return $query->getQuery()->getSingleScalarResult();
+	}
 }

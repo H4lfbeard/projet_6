@@ -17,310 +17,310 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class Users implements UserInterface, PasswordAuthenticatedUserInterface
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+	/**
+	 * @ORM\Id
+	 * @ORM\GeneratedValue
+	 * @ORM\Column(type="integer")
+	 */
+	private $id;
 
-    /**
-     * @ORM\Column(type="string", length=180, unique=true)
-     */
-    private $email;
+	/**
+	 * @ORM\Column(type="string", length=180, unique=true)
+	 */
+	private $email;
 
-    /**
-     * @ORM\Column(type="json")
-     */
-    private $roles = [];
+	/**
+	 * @ORM\Column(type="json")
+	 */
+	private $roles = [];
 
-    /**
-     * @var string The hashed password
-     * @ORM\Column(type="string")
-     */
-    private $password;
+	/**
+	 * @var string The hashed password
+	 * @ORM\Column(type="string")
+	 */
+	private $password;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $isVerified = false;
+	/**
+	 * @ORM\Column(type="boolean")
+	 */
+	private $isVerified = false;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Tricks::class, mappedBy="user", orphanRemoval=true)
-     */
-    private $tricks;
+	/**
+	 * @ORM\OneToMany(targetEntity=Tricks::class, mappedBy="user", orphanRemoval=true)
+	 */
+	private $tricks;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Messages::class, mappedBy="user", orphanRemoval=true)
-     */
-    private $messages;
+	/**
+	 * @ORM\OneToMany(targetEntity=Messages::class, mappedBy="user", orphanRemoval=true)
+	 */
+	private $messages;
 
-    /**
-     * @ORM\Column(type="string", length=100)
-     */
-    private $name;
+	/**
+	 * @ORM\Column(type="string", length=100)
+	 */
+	private $name;
 
-    /**
-     * @ORM\Column(type="string", length=100)
-     */
-    private $firstname;
+	/**
+	 * @ORM\Column(type="string", length=100)
+	 */
+	private $firstname;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Messages::class, mappedBy="firstname")
-     */
-    private $comments;
+	/**
+	 * @ORM\OneToMany(targetEntity=Messages::class, mappedBy="firstname")
+	 */
+	private $comments;
 
-    /**
-     * @ORM\OneToOne(targetEntity=Images::class, mappedBy="user", cascade={"persist", "remove"})
-     */
-    private $images;
+	/**
+	 * @ORM\OneToOne(targetEntity=Images::class, mappedBy="user", cascade={"persist", "remove"})
+	 */
+	private $images;
 
-    public function __construct()
-    {
-        $this->tricks = new ArrayCollection();
-        $this->messages = new ArrayCollection();
-        $this->comments = new ArrayCollection();
-    }
+	public function __construct()
+	{
+		$this->tricks = new ArrayCollection();
+		$this->messages = new ArrayCollection();
+		$this->comments = new ArrayCollection();
+	}
 
-    public function __toString()
-    {
-        return $this->name;
-    }
+	public function __toString()
+	{
+		return $this->name;
+	}
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
+	public function getId(): ?int
+	{
+		return $this->id;
+	}
 
-    public function getEmail(): ?string
-    {
-        return $this->email;
-    }
+	public function getEmail(): ?string
+	{
+		return $this->email;
+	}
 
-    public function setEmail(string $email): self
-    {
-        $this->email = $email;
+	public function setEmail(string $email): self
+	{
+		$this->email = $email;
 
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * A visual identifier that represents this user.
-     *
-     * @see UserInterface
-     */
-    public function getUserIdentifier(): string
-    {
-        return (string) $this->email;
-    }
+	/**
+	 * A visual identifier that represents this user.
+	 *
+	 * @see UserInterface
+	 */
+	public function getUserIdentifier(): string
+	{
+		return (string)$this->email;
+	}
 
-    /**
-     * @deprecated since Symfony 5.3, use getUserIdentifier instead
-     */
-    public function getUsername(): string
-    {
-        return (string) $this->email;
-    }
+	/**
+	 * @deprecated since Symfony 5.3, use getUserIdentifier instead
+	 */
+	public function getUsername(): string
+	{
+		return (string)$this->email;
+	}
 
-    /**
-     * @see UserInterface
-     */
-    public function getRoles(): array
-    {
-        $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
+	/**
+	 * @see UserInterface
+	 */
+	public function getRoles(): array
+	{
+		$roles = $this->roles;
+		// guarantee every user at least has ROLE_USER
+		$roles[] = 'ROLE_USER';
 
-        return array_unique($roles);
-    }
+		return array_unique($roles);
+	}
 
-    public function setRoles(array $roles): self
-    {
-        $this->roles = $roles;
+	public function setRoles(array $roles): self
+	{
+		$this->roles = $roles;
 
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * @see PasswordAuthenticatedUserInterface
-     */
-    public function getPassword(): string
-    {
-        return $this->password;
-    }
+	/**
+	 * @see PasswordAuthenticatedUserInterface
+	 */
+	public function getPassword(): string
+	{
+		return $this->password;
+	}
 
-    public function setPassword(string $password): self
-    {
-        $this->password = $password;
+	public function setPassword(string $password): self
+	{
+		$this->password = $password;
 
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * Returning a salt is only needed, if you are not using a modern
-     * hashing algorithm (e.g. bcrypt or sodium) in your security.yaml.
-     *
-     * @see UserInterface
-     */
-    public function getSalt(): ?string
-    {
-        return null;
-    }
+	/**
+	 * Returning a salt is only needed, if you are not using a modern
+	 * hashing algorithm (e.g. bcrypt or sodium) in your security.yaml.
+	 *
+	 * @see UserInterface
+	 */
+	public function getSalt(): ?string
+	{
+		return null;
+	}
 
-    /**
-     * @see UserInterface
-     */
-    public function eraseCredentials()
-    {
-        // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
-    }
+	/**
+	 * @see UserInterface
+	 */
+	public function eraseCredentials()
+	{
+		// If you store any temporary, sensitive data on the user, clear it here
+		// $this->plainPassword = null;
+	}
 
-    public function isVerified(): bool
-    {
-        return $this->isVerified;
-    }
+	public function isVerified(): bool
+	{
+		return $this->isVerified;
+	}
 
-    public function setIsVerified(bool $isVerified): self
-    {
-        $this->isVerified = $isVerified;
+	public function setIsVerified(bool $isVerified): self
+	{
+		$this->isVerified = $isVerified;
 
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * @return Collection<int, Tricks>
-     */
-    public function getTricks(): Collection
-    {
-        return $this->tricks;
-    }
+	/**
+	 * @return Collection<int, Tricks>
+	 */
+	public function getTricks(): Collection
+	{
+		return $this->tricks;
+	}
 
-    public function addTrick(Tricks $trick): self
-    {
-        if (!$this->tricks->contains($trick)) {
-            $this->tricks[] = $trick;
-            $trick->setUser($this);
-        }
+	public function addTrick(Tricks $trick): self
+	{
+		if (!$this->tricks->contains($trick)) {
+			$this->tricks[] = $trick;
+			$trick->setUser($this);
+		}
 
-        return $this;
-    }
+		return $this;
+	}
 
-    public function removeTrick(Tricks $trick): self
-    {
-        if ($this->tricks->removeElement($trick)) {
-            // set the owning side to null (unless already changed)
-            if ($trick->getUser() === $this) {
-                $trick->setUser(null);
-            }
-        }
+	public function removeTrick(Tricks $trick): self
+	{
+		if ($this->tricks->removeElement($trick)) {
+			// set the owning side to null (unless already changed)
+			if ($trick->getUser() === $this) {
+				$trick->setUser(null);
+			}
+		}
 
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * @return Collection<int, Messages>
-     */
-    public function getMessages(): Collection
-    {
-        return $this->messages;
-    }
+	/**
+	 * @return Collection<int, Messages>
+	 */
+	public function getMessages(): Collection
+	{
+		return $this->messages;
+	}
 
-    public function addMessage(Messages $message): self
-    {
-        if (!$this->messages->contains($message)) {
-            $this->messages[] = $message;
-            $message->setUser($this);
-        }
+	public function addMessage(Messages $message): self
+	{
+		if (!$this->messages->contains($message)) {
+			$this->messages[] = $message;
+			$message->setUser($this);
+		}
 
-        return $this;
-    }
+		return $this;
+	}
 
-    public function removeMessage(Messages $message): self
-    {
-        if ($this->messages->removeElement($message)) {
-            // set the owning side to null (unless already changed)
-            if ($message->getUser() === $this) {
-                $message->setUser(null);
-            }
-        }
+	public function removeMessage(Messages $message): self
+	{
+		if ($this->messages->removeElement($message)) {
+			// set the owning side to null (unless already changed)
+			if ($message->getUser() === $this) {
+				$message->setUser(null);
+			}
+		}
 
-        return $this;
-    }
+		return $this;
+	}
 
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
+	public function getName(): ?string
+	{
+		return $this->name;
+	}
 
-    public function setName(string $name): self
-    {
-        $this->name = $name;
+	public function setName(string $name): self
+	{
+		$this->name = $name;
 
-        return $this;
-    }
+		return $this;
+	}
 
-    public function getFirstname(): ?string
-    {
-        return $this->firstname;
-    }
+	public function getFirstname(): ?string
+	{
+		return $this->firstname;
+	}
 
-    public function setFirstname(string $firstname): self
-    {
-        $this->firstname = $firstname;
+	public function setFirstname(string $firstname): self
+	{
+		$this->firstname = $firstname;
 
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * @return Collection<int, Messages>
-     */
-    public function getComments(): Collection
-    {
-        return $this->comments;
-    }
+	/**
+	 * @return Collection<int, Messages>
+	 */
+	public function getComments(): Collection
+	{
+		return $this->comments;
+	}
 
-    public function addComment(Messages $comment): self
-    {
-        if (!$this->comments->contains($comment)) {
-            $this->comments[] = $comment;
-            $comment->setFirstname($this);
-        }
+	public function addComment(Messages $comment): self
+	{
+		if (!$this->comments->contains($comment)) {
+			$this->comments[] = $comment;
+			$comment->setFirstname($this);
+		}
 
-        return $this;
-    }
+		return $this;
+	}
 
-    public function removeComment(Messages $comment): self
-    {
-        if ($this->comments->removeElement($comment)) {
-            // set the owning side to null (unless already changed)
-            if ($comment->getFirstname() === $this) {
-                $comment->setFirstname(null);
-            }
-        }
+	public function removeComment(Messages $comment): self
+	{
+		if ($this->comments->removeElement($comment)) {
+			// set the owning side to null (unless already changed)
+			if ($comment->getFirstname() === $this) {
+				$comment->setFirstname(null);
+			}
+		}
 
-        return $this;
-    }
+		return $this;
+	}
 
-    public function getImages(): ?Images
-    {
-        return $this->images;
-    }
+	public function getImages(): ?Images
+	{
+		return $this->images;
+	}
 
-    public function setImages(?Images $images): self
-    {
-        // unset the owning side of the relation if necessary
-        if ($images === null && $this->images !== null) {
-            $this->images->setUser(null);
-        }
+	public function setImages(?Images $images): self
+	{
+		// unset the owning side of the relation if necessary
+		if ($images === null && $this->images !== null) {
+			$this->images->setUser(null);
+		}
 
-        // set the owning side of the relation if necessary
-        if ($images !== null && $images->getUser() !== $this) {
-            $images->setUser($this);
-        }
+		// set the owning side of the relation if necessary
+		if ($images !== null && $images->getUser() !== $this) {
+			$images->setUser($this);
+		}
 
-        $this->images = $images;
+		$this->images = $images;
 
-        return $this;
-    }
+		return $this;
+	}
 }

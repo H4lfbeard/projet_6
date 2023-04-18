@@ -11,18 +11,17 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class CategoriesType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options): void
-    {
-        $builder
-            ->add('name', TextType::class)
-            ->add('Valider', SubmitType::class)
-        ;
-    }
+	public function buildForm(FormBuilderInterface $builder, array $options): void
+	{
+		$builder
+			->add('name', TextType::class)
+			->add('Valider', SubmitType::class);
+	}
 
-    public function configureOptions(OptionsResolver $resolver): void
-    {
-        $resolver->setDefaults([
-            'data_class' => Categories::class,
-        ]);
-    }
+	public function configureOptions(OptionsResolver $resolver): void
+	{
+		$resolver->setDefaults([
+			'data_class' => Categories::class,
+		]);
+	}
 }
