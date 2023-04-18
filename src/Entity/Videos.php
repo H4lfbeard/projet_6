@@ -33,7 +33,7 @@ class Videos
         return $this->id;
     }
 
-    public function SetId(?string $id): ?int
+    public function setId(?string $id): ?int
     {
         $this->id = $id;
 
